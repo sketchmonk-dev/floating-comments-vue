@@ -13,9 +13,9 @@ export default defineConfig({
   })],
   build: {
     lib: {
-      entry: resolve(__dirname, 'lib/main.ts'),
+      entry: resolve(__dirname, 'lib/index.ts'),
       name: 'floating-comment-vue',
-      fileName: (format) => `index.${format}.js`
+      fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

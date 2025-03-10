@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { type FloatingCommentsProps, type Comment } from '../../lib/common';
-import { FloatingComments } from '../../lib/main';
+import { FloatingComments } from '../../lib';
 
 const props = defineProps<FloatingCommentsProps>();
 
