@@ -2,16 +2,20 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import dts from 'vite-plugin-dts'
 
 __dirname = dirname(fileURLToPath(import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), dts({
+    tsconfigPath: './tsconfig.build.json',
+  })],
   build: {
     lib: {
       entry: resolve(__dirname, 'lib/main.ts'),
-      name: 'floating-comment-vue'
+      name: 'floating-comment-vue',
+      fileName: (format) => `index.${format}.js`
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -25,6 +29,8 @@ export default defineConfig({
         },
       },
     },
+    sourcemap: true,
+    emptyOutDir: true,
   },
   
 })
