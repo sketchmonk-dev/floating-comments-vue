@@ -1,0 +1,1 @@
+export { default as FloatingComments } from './FloatingComments.vue';
