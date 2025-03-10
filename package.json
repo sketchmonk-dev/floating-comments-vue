@@ -1,7 +1,7 @@
 {
   "name": "@sketchmonk/floating-comment-vue",
   "description": "A headless component for building figma like floating comments in Vue 3",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/main.d.ts",
