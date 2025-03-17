@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="D">
 import { computed, ref } from 'vue';
 import type { Comment, FloatingCommentsProps } from '../common';
 
@@ -36,7 +36,7 @@ const dialogXY = computed(() => {
     return getCollissionFreeXY(dialog.value.position.x, dialog.value.position.y, dialogRef.value)
 })
 
-const comments = defineModel<Comment[]>('comments', {
+const comments = defineModel<Comment<D>[]>('comments', {
     default: []
 });
 
@@ -51,6 +51,7 @@ const openedCommentId = ref<string|null>(null)
 const openedComment = computed(() => {
     return comments.value.find(comment => comment.id === openedCommentId.value)
 })
+
 const openedCommentRef = ref<HTMLElement>()
 const openedCommentPosition = computed(() => {
     if (openedComment.value && openedCommentRef.value) {
@@ -80,6 +81,7 @@ const clearAnyOpenDialogs = () => {
         @click.prevent="clearAnyOpenDialogs" 
         @click.right.prevent="onRightClick" ref="root">
         <slot />
+        
         <!-- others -->
         <div v-if="dialog.enabled" @click.stop ref="dialogRef" :style="{ left: dialogXY.x + 'px', top: dialogXY.y + 'px', position: 'absolute', zIndex: 10 }">
             <slot name="dialog" :position="dialog.position" :actions="{ closeDialog }" />

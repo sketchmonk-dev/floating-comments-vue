@@ -3,14 +3,9 @@ interface XYPosition {
     y: number;
 }
 
-export interface Comment {
+export interface Comment<D = any> {
     id: string;
-    user: {
-        username: string;
-        profileUrl?: string;
-    };
-    content: string;
-    timestamp: string;
+    data: D;
     position: XYPosition;
 }
 

@@ -18,31 +18,34 @@ The `FloatingComments` component allows users to add and view comments on specif
 
 ```vue
 <template>
-  <FloatingComments :width="800" :height="600" v-model:comments="comments">
-    <template #default>
-      <div class="w-full h-full bg-background"></div>
-    </template>
-    <template #dialog="{ actions, position }">
-      <div class="dialog">
-        <div class="dialog__title">Add Comment</div>
-        <div class="dialog__content">
-          <textarea @keyup.enter="addComment(position); actions.closeDialog()" v-model="content" class="dialog__textarea"></textarea>
-        </div>
-      </div>
-    </template>
-    <template #comment="{ comment, actions }">
-      <div @click="actions.openComment(comment.id)" class="comment">
-        <div class="comment__avatar">{{ comment.user.username.charAt(0) }}</div>
-      </div>
-    </template>
-    <template #comment-expanded="{ comment }">
-      <div class="dialog">
-        <div class="dialog__title">{{ comment.user.username }}</div>
-        <div class="dialog__content">
-          <div class="dialog__description">{{ comment.content }}</div>
-        </div>
-      </div>
-    </template>
+  <FloatingComments v-bind="props" v-model:comments="comments">
+      <template #default>
+          <div class="w-full h-full bg-background">
+          </div>
+      </template>
+      <template #dialog="{ actions, position }">
+          <div class="dialog">
+              <div class="dialog__title">Add Comment</div>
+              <div class="dialog__content">
+                  <textarea @keyup.enter="addComment(position); actions.closeDialog()" v-model="content" class="dialog__textarea"></textarea>
+              </div>
+          </div>
+      </template>
+      <template #comment="{ comment, actions }">
+          <div @click="actions.openComment(comment.id)" class="comment">
+              <div class="comment__avatar">
+                  {{ comment.data.user.username.charAt(0) }}
+              </div>
+          </div>
+      </template>
+      <template #comment-expanded="{ comment }">
+          <div class="dialog">
+              <div class="dialog__title">{{ comment.data.user.username }}</div>
+              <div class="dialog__content">
+                  <div class="dialog__description">{{ comment.data.content }}</div>
+              </div>
+          </div>
+      </template>
   </FloatingComments>
 </template>
 
@@ -53,18 +56,23 @@ import { FloatingComments } from 'floating-comment-vue';
 const comments = ref([]);
 const content = ref('');
 
-const addComment = (position) => {
-  comments.value.push({
-    id: Math.random().toString(36).substring(7),
-    user: {
-      username: 'User',
-      profileUrl: 'https://avatars.githubusercontent.com/u/1?v=4'
-    },
-    content: content.value,
-    timestamp: new Date().toISOString(),
-    position,
-  });
-};
+const addComment = (position: { x: number, y: number }) => {
+    comments.value = [
+      ...comments.value,
+      {
+        id: Math.random().toString(36).substring(7),
+        data: {
+          user: {
+            username: "User",
+            profileUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+          },
+          content: content.value,
+          timestamp: new Date().toISOString(),
+        },
+        position,
+      },
+    ];
+}
 </script>
 
 <style lang="css">
